@@ -142,9 +142,11 @@ Crt_SmryDF <- function(data, val = "value"){
 ############################
 PltChmMean <- function(data){
   p <- ggplot(data, aes(x = date, y = Mean, col = chamber, linetype = chamber))
-  ylab <- ifelse(unique(data$variable) == "nitrification", expression(Nitrification~rates/n(mg~dry_soil_kg^-1~day^-1)), 
-                 ifelse(unique(data$variable) == "n.min", expression(N~mineralisation~rates~(mg~dry_soil_kg^-1~day^-1)), 
-                        expression(P~mineralisation~rates~(mg~dry_soil_kg^-1~day^-1))))
+  
+  ylab <- ifelse(unique(data$variable) == "nitrification", 
+                    expression(atop("Nitrification rates", paste(dry_soil_mg^-1~day^-1))), 
+                    ifelse(unique(data$variable) == "n.min", expression(atop("N mineralisation rates", paste(dry_soil_mg^-1~day^-1))), 
+                           expression(atop("P mineralisation rates", paste(dry_soil_mg^-1~day^-1)))))
   p + geom_line(size = 1) + 
     geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE, col = chamber), width = 5) + 
     scale_color_manual(values = palette(), "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
