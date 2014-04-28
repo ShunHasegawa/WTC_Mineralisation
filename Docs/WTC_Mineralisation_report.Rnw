@@ -43,4 +43,24 @@ source("R/figs.R")
 %%%
 %%%
 
+\section{Mineralisation}
+
+%%%%%%%%%%%%%%%%%
+% Nitrification %
+%%%%%%%%%%%%%%%%%
+
+%%% Temp %%%
+\subsubsection{Temp trt}
+
+\begin{figure}{!h}\label{figure:temp_nitrification}
+
+\begin{center}
+
+<<FigTempNitrification, echo=FALSE, fig.height=3, fig.width=6>>=
+TrtFg[[1]]
+@
+\caption{Nitrification rates at temperature treatments}
+\end{center}
+\end{figure}
+
 \end{document}
