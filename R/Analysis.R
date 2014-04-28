@@ -24,4 +24,16 @@ mine <- read.csv("Data/WTC_mineralisation.csv", colClasses=c("time" = "factor", 
 mine <- mine[complete.cases(mine),]
 mine <- droplevels(mine)
 mine$chamber <- factor(ifelse(mine$chamber < 10, paste("0", mine$chamber, sep = ""), mine$chamber))
-summary(mine)
+mine$insertion <- as.Date(dmy(mine$insertion))
+mine$sampling <- as.Date(dmy(mine$sampling))
+mine$date <- as.Date(ave(apply(cbind(mine$insertion, mine$sampling), 1, mean), mine$time), 
+                     origin = origin) # same date for same date
+save(mine, file = "Output//Data/WTC_Mineralisation.RData")
+
+#################
+# Summary table #
+#################
+head(mine)
+mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber", "location", "side", "temp"))
+
+
