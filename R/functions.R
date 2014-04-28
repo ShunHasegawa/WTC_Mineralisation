@@ -59,6 +59,8 @@ Crrtct.ccv.df <- function(filename, ccval = 7.5){
 ######################################################
 # process and combine aq 2 data, then create a table #
 ######################################################
+data  <- read.csv("Data/AQ2/ReadyToProcess/Corrected_WTC_Mineralisation_07JAN2014_NO.csv")
+
 prcsAQ2 <- function(data){
   # remove ccv, ccb, standard
   res <- data[-grep("^C|^STANDARD", as.character(data$Sample.ID)),]
@@ -71,12 +73,15 @@ prcsAQ2 <- function(data){
   
   # turn this into data frame
   a.df <- ldply(a)
-  names(a.df)[c(1, 4, 5)] <- c("Date", "ring", "plot")
+  names(a.df)[c(1, 4:6)] <- c("Date", "Incubation", "Chamber", "Side")
   a.df$Date <- ymd(a.df$Date)
   res.df <- cbind(a.df, res)
-  res.df <- res.df[c("Date", "ring", "plot", "Result")]
+  res.df <- res.df[c("Date", "Incubation","Chamber", "Side", "Result")]
+  res.df <- res.df[order(res.df$Date, res.df$Incubation, as.numeric(res.df$Chamber), as.numeric(res.df$Side)),]
   return(res.df)
 }
+
+?order
 
 cmbn.fls <- function(file){
   # read files
