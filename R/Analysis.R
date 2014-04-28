@@ -40,3 +40,8 @@ source("R/SummaryTableExcel.R")
 # Figs #
 ########
 source("R/figs.R")
+
+#########
+# Stats #
+#########
+source("R/stats.R")
