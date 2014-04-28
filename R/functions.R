@@ -101,7 +101,6 @@ cmbn.fls <- function(file){
 # Create a summary table #
 ##########################
 CreateTable <- function(dataset, fac){
-  #dataset=iem for chamber summary, ChMean for temp trt summary, fac = Chamber or temp, nutrient=no/nh/po
   a <- dataset[c("date", fac, "value")] #extract required columns
   colnames(a) <- c("date","variable","value") #change column names for cast
   means <- cast(a, date~variable, mean, na.rm = TRUE) 
