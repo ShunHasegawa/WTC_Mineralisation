@@ -34,3 +34,4 @@ mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber",
 #################
 # Summary table #
 #################
+source("R/SummaryTableExcel.R")
