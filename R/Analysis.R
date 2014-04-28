@@ -29,7 +29,6 @@ mine$sampling <- as.Date(dmy(mine$sampling))
 mine$date <- as.Date(ave(apply(cbind(mine$insertion, mine$sampling), 1, mean), mine$time), 
                      origin = origin) # same date for same date
 save(mine, file = "Output//Data/WTC_Mineralisation.RData")
-mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber", "location", "side", "temp"))
 
 #################
 # Summary table #
