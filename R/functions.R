@@ -81,8 +81,6 @@ prcsAQ2 <- function(data){
   return(res.df)
 }
 
-?order
-
 cmbn.fls <- function(file){
   # read files
   rd.fls <- lapply(file, function(x) read.csv(paste("Data/AQ2/ReadyToProcess/", x, sep = ""), header = TRUE))
@@ -91,7 +89,7 @@ cmbn.fls <- function(file){
   pr.df <- ldply(rd.fls, function(x) ddply(x, .(Test.Name), prcsAQ2))
   
   # reshape
-  names(pr.df)[5] <- "value"
-  pr.cst <- cast(pr.df, Date + ring + plot ~ Test.Name)
+  names(pr.df)[grep("Result", names(pr.df))] <- "value"
+  pr.cst <- cast(pr.df, Date + Incubation + Chamber + Side ~ Test.Name)
   return(pr.cst)
 }
