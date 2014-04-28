@@ -90,6 +90,9 @@ cmbn.fls <- function(file){
   
   # reshape
   names(pr.df)[grep("Result", names(pr.df))] <- "value"
+  pr.cst$Chamber <- as.numeric(pr.cst$Chamber)
+  pr.cst$Side  <- as.numeric(pr.cst$Side)
   pr.cst <- cast(pr.df, Date + Incubation + Chamber + Side ~ Test.Name)
+  pr.cst <- pr.cst[order(pr.cst$Incubation, pr.cst$Date, as.numeric(pr.cst$Chamber), as.numeric(pr.cst$Side)),]
   return(pr.cst)
 }
