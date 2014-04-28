@@ -137,44 +137,30 @@ Crt_SmryDF <- function(data, val = "value"){
   data.frame(Mean, SE, N)
 }
 
-############################
-# Plot Chamber mean and SE #
-############################
-PltChmMean <- function(data){
+####################
+# plot mean and se #
+####################
+PltMean <- function(data){
   ylabs <- c(expression(atop("Nitrification rates", paste((dry_soil_mg^-1~day^-1)))),
              expression(atop("N mineralisation rates", paste((dry_soil_mg^-1~day^-1)))),
              expression(atop("P mineralisation rates", paste((dry_soil_mg^-1~day^-1)))))
   
-  
-  p <- ggplot(data, aes(x = date, y = Mean, col = chamber, linetype = chamber))
-  
   ylab <- ifelse(unique(data$variable) == "nitrification", ylabs[1], 
                  ifelse(unique(data$variable) == "n.min", ylabs[2], 
                         ylabs[3]))
-  p + geom_line(size = 1) + 
-    geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE, col = chamber), width = 5) + 
-    scale_color_manual(values = palette(), "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
-    scale_linetype_manual(values = rep(c("solid", "dashed"), 6), 
-                          "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
-    labs(x = "Time", y = ylab) +
+  
+  colfactor <- ifelse(any(names(data) == "chamber"), "chamber", "temp")
+  
+  p <- ggplot(data, aes_string(x = "date", y = "Mean", col = colfactor))
+  
+  p2 <- p + geom_line(size = 1) + 
+    geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", col = colfactor), width = 5) + 
+    labs(x = "Time", y = ylab)
+  
+  # change colors, linetype and associated legend according plotting groups (chamber or treatment)
+  if(colfactor == "temp") p2 +  scale_color_manual(values = c("blue", "red"), "Temp trt", labels = c("Ambient", "eTemp")) else
+    p2 + scale_color_manual(values = palette(), "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
+    scale_linetype_manual(values = rep(c("solid", "dashed"), 6), "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
     guides(color = guide_legend(keyheight = 0.7))
 }
 
-#############################
-# plot Temp trt mean and SE #
-#############################
-PltTmpMean <- function(data){
-  ylabs <- c(expression(atop("Nitrification rates", paste((dry_soil_mg^-1~day^-1)))),
-             expression(atop("N mineralisation rates", paste((dry_soil_mg^-1~day^-1)))),
-             expression(atop("P mineralisation rates", paste((dry_soil_mg^-1~day^-1)))))
-  
-  p <- ggplot(data, aes(x = date, y = Mean, col = temp))
-  
-  ylab <- ifelse(unique(data$variable) == "nitrification", ylabs[1], 
-                 ifelse(unique(data$variable) == "n.min", ylabs[2], 
-                        ylabs[3]))
-  p + geom_line(size = 1) + 
-    geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE, col = temp), width = 5) + 
-    scale_color_manual(values = c("blue", "red"), "Temp trt", labels = c("Ambient", "eTemp")) +
-    labs(x = "Time", y = ylab)
-}
