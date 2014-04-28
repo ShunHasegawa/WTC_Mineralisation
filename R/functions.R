@@ -1,6 +1,13 @@
 ###################################
 # Coorect AQ2 result based on CCV #
 ###################################
+filename = files[1]
+data <- read.csv(paste("Data/AQ2/NeedToBeCorrected/", filename, sep = ""), header = TRUE)
+head(data)
+summary(lm(Result ~ Absorbance, data))
+
+plot(Result~I(Absorbance * Auto.Dil), data[-grep("^S", data$Sample.ID),])
+data
 
 # subset dataset beween each ccv
 Crrct.ccv <- function(x, data, ccval = 7.5){
@@ -10,12 +17,12 @@ Crrct.ccv <- function(x, data, ccval = 7.5){
   ts <- data[c(ccv.ps[x] : ccv.ps[x + 1]),]
   trng <- range(ts$times)
   xv <- as.numeric(trng)
-  yv <- ts$Result[ts$times == trng[1] | ts$times == trng[2]] 
+  yv <- ts$Absorbance[ts$times == trng[1] | ts$times == trng[2]] 
   
   b <- ccval * (1 / yv[1] - 1 / yv[2]) / (xv[1] - xv[2])
   a <- ccval / yv[1] - b * xv[1]
   
-  ts$Result <- ts$Result * (a + b * as.numeric(ts$times))
+  ts$Absorbance <- ts$Absorbance * (a + b * as.numeric(ts$times))
   ts$times <- NULL
   return(ts)
 }
