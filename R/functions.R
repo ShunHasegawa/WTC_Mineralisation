@@ -145,9 +145,10 @@ PltMean <- function(data){
              expression(atop("N mineralisation rates", paste((dry_soil_mg^-1~day^-1)))),
              expression(atop("P mineralisation rates", paste((dry_soil_mg^-1~day^-1)))))
   
-  ylab <- ifelse(unique(data$variable) == "nitrification", ylabs[1], 
-                 ifelse(unique(data$variable) == "n.min", ylabs[2], 
-                        ylabs[3]))
+  ylab <- ifelse(length(unique(data$variable)) > 1, expression((dry_soil_mg^-1~day^-1)),
+                 ifelse(unique(data$variable) == "nitrification", ylabs[1], 
+                        ifelse(unique(data$variable) == "n.min", ylabs[2],
+                               ylabs[3])))
   
   colfactor <- ifelse(any(names(data) == "chamber"), "chamber", "temp")
   
