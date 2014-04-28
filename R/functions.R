@@ -123,6 +123,16 @@ crSheet <- function(sheetname, dataset){
   addDataFrame(dataset, sheet, showNA = TRUE, row.names = FALSE, startRow = 2)
   
   #title of the sheet
-  addDataFrame(t(c(sheetname, "unit=ug cm^(-2) day^(-1))")), sheet, startRow = 1, row.names = FALSE, col.names = FALSE)
+  addDataFrame(t(c(sheetname, "unit=mg DrySoil(kg)^(-1) day^(-1)")), sheet, startRow = 1, row.names = FALSE, col.names = FALSE)
 }
 
+############################
+# make a summary dataframe #
+############################
+Crt_SmryDF <- function(data, val = "value"){
+  x <- data[ ,val]
+  Mean <- mean(x, na.rm = TRUE)
+  SE <- ci(x, na.rm = TRUE)[[4]]
+  N  <- sum(!is.na(x))
+  data.frame(Mean, SE, N)
+}
