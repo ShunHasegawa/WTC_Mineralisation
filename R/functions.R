@@ -182,10 +182,10 @@ MdlSmpl <- function(model){
 # compare different auto-correlation models #
 #############################################
 atcr.cmpr <- function(model, rndmFac){
-  if(rndmFac == "Chamber/Location"){
-    model2 <- update(model,corr=corCompSymm(form=~1|Chamber/Location)) 
+  if(rndmFac == "chamber/side"){
+    model2 <- update(model,corr=corCompSymm(form=~1|Chamber/side)) 
   } else {
-    if(rndmFac == "Chamber"){
+    if(rndmFac == "chamber"){
       model2 <- update(model,corr=corCompSymm(form=~1|Chamber))
     } else {
       model2 <- update(model,corr=corCompSymm(form=~1|id))
@@ -207,9 +207,9 @@ atcr.cmpr <- function(model, rndmFac){
 bxplts <- function(value, ofst = 0, data){
   par(mfrow = c(2,2))
   y <- data[[value]] + ofst #ofst is added to make y >0
-  boxplot(y ~ temp*Time, data)
-  boxplot(log(y) ~ temp*Time, main = "log", data)
-  boxplot(sqrt(y) ~ temp*Time, main = "sqrt", data)
-  boxplot(y^(1/3) ~ temp*Time, main = "power(1/3)", data)
+  boxplot(y ~ temp*time, data)
+  boxplot(log(y) ~ temp*time, main = "log", data)
+  boxplot(sqrt(y) ~ temp*time, main = "sqrt", data)
+  boxplot(y^(1/3) ~ temp*time, main = "power(1/3)", data)
   par(mfrow = c(1,1))
 }
