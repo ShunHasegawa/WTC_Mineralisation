@@ -141,16 +141,17 @@ Crt_SmryDF <- function(data, val = "value"){
 # Plot Chamber mean and SE #
 ############################
 PltChmMean <- function(data){
-  p <- ggplot(data, aes(x = date, y = Mean, col = Chamber, linetype = Chamber))
-  ylab <- ifelse(unique(data$variable) == "no", expression(NO[3]^"-"-N~(mu*g~cm^-2~day^-1)), 
-                 ifelse(unique(data$variable) == "nh", expression(NH[4]^"+"-N~(mu*g~cm^-2~day^-1)), 
-                        expression(PO[4]^"3-"-P~(mu*g~cm^-2~day^-1))))
+  p <- ggplot(data, aes(x = date, y = Mean, col = chamber, linetype = chamber))
+  ylab <- ifelse(unique(data$variable) == "nitrification", expression(Nitrification~rates/n(mg~dry_soil_kg^-1~day^-1)), 
+                 ifelse(unique(data$variable) == "n.min", expression(N~mineralisation~rates~(mg~dry_soil_kg^-1~day^-1)), 
+                        expression(P~mineralisation~rates~(mg~dry_soil_kg^-1~day^-1))))
   p + geom_line(size = 1) + 
-    geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE, col = Chamber), width = 5) + 
+    geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE, col = chamber), width = 5) + 
     scale_color_manual(values = palette(), "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
     scale_linetype_manual(values = rep(c("solid", "dashed"), 6), 
                           "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
-    labs(x = "Time", y = ylab)
+    labs(x = "Time", y = ylab) +
+    guides(color = guide_legend(keyheight = 0.7))
 }
 
 #############################
