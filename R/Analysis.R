@@ -29,13 +29,11 @@ mine$sampling <- as.Date(dmy(mine$sampling))
 mine$date <- as.Date(ave(apply(cbind(mine$insertion, mine$sampling), 1, mean), mine$time), 
                      origin = origin) # same date for same date
 save(mine, file = "Output//Data/WTC_Mineralisation.RData")
+mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber", "location", "side", "temp"))
 
 #################
 # Summary table #
 #################
-head(mine)
-mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber", "location", "side", "temp"))
-
 # chamber summary table & mean
 ChSmmryTbl <- dlply(mineMlt, .(variable), function(x) CreateTable(x, fac = "chamber"))
 ChMean <- ddply(mineMlt, .(time, insertion, sampling, date, temp, chamber, variable), summarise, value = mean(value, na.rm = TRUE)) 
