@@ -38,7 +38,7 @@ mineMlt <- melt(mine, id = c("time", "date", "insertion", "sampling", "chamber",
 
 # chamber summary table & mean
 ChSmmryTbl <- dlply(mineMlt, .(variable), function(x) CreateTable(x, fac = "chamber"))
-ChMean <- ddply(mineMlt, .(time, date, temp, chamber, variable), summarise, value = mean(value, na.rm = TRUE)) 
+ChMean <- ddply(mineMlt, .(time, insertion, sampling, date, temp, chamber, variable), summarise, value = mean(value, na.rm = TRUE)) 
 
 # treat summary table $ mean
 TrtSmmryTbl <- dlply(ChMean, .(variable), function(x) CreateTable(x, fac = "temp"))
