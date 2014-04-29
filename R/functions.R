@@ -146,7 +146,7 @@ PltMean <- function(data){
              bquote(atop("N mineralisation rates", paste(.(unt)))),
              bquote(atop("P mineralisation rates", paste(.(unt)))))
   
-    ylab <- ifelse(length(unique(data$variable)) > 1, bquote(.(unt)),
+    ylab <- ifelse(length(unique(data$variable)) > 1, c(expression(), bquote(.(unt))),
                  ifelse(unique(data$variable) == "nitrification", ylabs[1], 
                         ifelse(unique(data$variable) == "n.min", ylabs[2],
                                ylabs[3])))
