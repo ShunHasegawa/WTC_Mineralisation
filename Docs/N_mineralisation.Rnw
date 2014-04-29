@@ -68,13 +68,11 @@ Fml <- MdlSmpl(m3)$model.reml
 lme(log(n.min + 2.7) ~ time, random = ~1|id, data = N_min_rmOl)
 
 Anova(Fml)
+
 summary(Fml)
 
 # model diagnosis
 plot(Fml)
-
-
-
 qqnorm(Fml, ~ resid(.)|chamber)
 qqnorm(residuals.lm(Fml))
 qqline(residuals.lm(Fml))
