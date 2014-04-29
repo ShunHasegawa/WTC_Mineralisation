@@ -83,7 +83,7 @@ qqline(residuals.lm(Fml))
 
 %%% chamber %%%
 \clearpage
-\subsection{Chamber}
+\subsubsection{Chamber}
 
 \begin{figure}[!h]\label{figure:chamber_N_mineralisation}
 \begin{center}
@@ -115,5 +115,3 @@ print(xtable(ChSmmryTbl[[2]][,c(1, 26:37)],
       table.placement = "H",
       size = "small")
 @
-
-\end{document}

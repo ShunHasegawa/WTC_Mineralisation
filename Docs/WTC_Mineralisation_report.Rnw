@@ -54,6 +54,7 @@ source("R/figs.R")
 %%%%%%%%%%%%%%%%%%%%
 % N mineralisation %
 %%%%%%%%%%%%%%%%%%%%
+\clearpage
 \Sexpr{knit_child('N_mineralisation.Rnw')}
 
 
