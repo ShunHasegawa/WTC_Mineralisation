@@ -1,5 +1,3 @@
-mine$id <- mine$chamber:mine$side
-
 ###################
 # P minerlisation #
 ###################

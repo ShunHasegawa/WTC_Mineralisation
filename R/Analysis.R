@@ -28,6 +28,7 @@ mine$insertion <- as.Date(dmy(mine$insertion))
 mine$sampling <- as.Date(dmy(mine$sampling))
 mine$date <- as.Date(ave(apply(cbind(mine$insertion, mine$sampling), 1, mean), mine$time), 
                      origin = origin) # same date for same date
+mine$id <- mine$chamber:mine$side
 save(mine, file = "Output//Data/WTC_Mineralisation.RData")
 
 #################
