@@ -1,0 +1,107 @@
+\Sexpr{set_parent('WTC_Mineralisation_report.Rnw')}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% source files & libraries & setup options                                  %%
+%% need to be loaded here if one wants to compile this child document to PDF %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{P mineralisation}
+
+%%% Temp %%%
+\subsubsection{Temp trt}
+
+\begin{figure}[!h]\label{figure:temp_P_mineralisation}
+
+\begin{center}
+
+<<FigTempP_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
+TrtFg[[3]]
+@
+
+<<TableTempP_mineralisation, echo=FALSE, results='asis'>>=
+print(xtable(TrtSmmryTbl[[3]],
+             caption = "Temp trt mean of P mineralisation rates", 
+             label = "table:temp_P_mineralisation", 
+             align = rep("l", 8)),
+      caption.placement = "top", 
+      include.rownames = FALSE,
+      table.placement = "H")
+@
+
+
+\caption{P mineralisation rates at temperature treatments}
+\end{center}
+\end{figure}
+
+%% Stats %%
+\paragraph{Stats}
+\noindent
+
+<<StatTempP_mineralisation, echo=TRUE, results='markup'>>=
+bxplts(value = "p.min", ofst= 0.06, data = mine)
+# sqrt seems better
+
+# different random factor structure
+m1 <- lme(sqrt(p.min + .06) ~ temp * time, random = ~1|chamber/side, data = mine)
+m2 <- lme(sqrt(p.min + .06) ~ temp * time, random = ~1|chamber, data = mine)
+m3 <- lme(sqrt(p.min + .06) ~ temp * time, random = ~1|id, data = mine)
+anova(m1, m2, m3)
+  # m1 is slightly better
+
+# autocorrelation
+atcr.cmpr(m1, rndmFac= "chamber/side")
+  # no need for auto-correlation
+
+# model simplification
+MdlSmpl(m1)
+  # interaction of temp x time is removed
+
+Fml <- MdlSmpl(m1)$model.reml
+
+# The final model is
+lme(sqrt(p.min + .06) ~ temp + time, random = ~1|chamber/side, data = mine)
+
+Anova(Fml)
+summary(Fml)
+
+# model diagnosis
+plot(Fml)
+qqnorm(Fml, ~ resid(.)|chamber)
+qqnorm(residuals.lm(Fml))
+qqline(residuals.lm(Fml))
+@
+
+%%% chamber %%%
+\clearpage
+\subsubsection{Chamber}
+
+\begin{figure}[!h]\label{figure:chamber_P_mineralisation}
+\begin{center}
+
+<<FigChP_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
+ChFg[[3]]
+@
+\caption{P mineralisation rates in chambers}
+\end{center}
+\end{figure}
+
+<<TableChP_mineralisation, echo=FALSE, results='asis'>>=
+print(xtable(ChSmmryTbl[[3]][, 1:13],
+             caption = "Chamber means for P mineralisation rates",
+             label = "table:chamber_P_mineralisation",
+             align = rep("l", 14)),
+      caption.placement = "top",
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+print(xtable(ChSmmryTbl[[3]][,c(1, 14:25)],
+             align = rep("l", 14)),
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+print(xtable(ChSmmryTbl[[3]][,c(1, 26:37)],
+             align = rep("l", 14)),
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+@
