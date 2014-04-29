@@ -28,6 +28,7 @@ library(xlsx)
 library(contrast)
 library(effects)
 library(ggplot2)
+library(xtable)
 source("R/functions.R")
 load("Output//Data//WTC_Mineralisation.RData")
 source("R/SummaryTableExcel.R")
@@ -48,19 +49,113 @@ source("R/figs.R")
 %%%%%%%%%%%%%%%%%
 % Nitrification %
 %%%%%%%%%%%%%%%%%
+\subsection{Nitrification}
 
 %%% Temp %%%
 \subsubsection{Temp trt}
 
-\begin{figure}{!h}\label{figure:temp_nitrification}
+\begin{figure}[!h]\label{figure:temp_nitrification}
 
 \begin{center}
 
 <<FigTempNitrification, echo=FALSE, fig.height=3, fig.width=6>>=
 TrtFg[[1]]
 @
+
+<<TableTempNitrification, echo=FALSE, results='asis'>>=
+print(xtable(TrtSmmryTbl[[1]],
+             caption = "Temp trt mean of nitrification rates", 
+             label = "table:temp_nitrification", 
+             align = rep("l", 8)),
+      caption.placement = "top", 
+      include.rownames = FALSE,
+      table.placement = "H")
+@
+
+
 \caption{Nitrification rates at temperature treatments}
 \end{center}
 \end{figure}
+
+%% Stats %%
+\paragraph{Stats}
+\noindent
+
+<<StatTempNitrification, echo=TRUE, results='markup'>>=
+bxplts(value= "nitrification", ofst= 2.6, data = mine)
+  # remove the lowest value
+
+bxplts(value= "nitrification", ofst= 2.6, data = subset(mine, nitrification > min(nitrification)))
+  # homogeneity in variance is still highly violated but carry on anyway this time with log
+NhrmOl <- subset(mine, nitrification > min(nitrification))
+
+
+# different random factor structure
+m1 <- lme(log(nitrification + 2.6) ~ temp * time, random = ~1|chamber/side, data = NhrmOl)
+m2 <- lme(log(nitrification + 2.6) ~ temp * time, random = ~1|chamber, data = NhrmOl)
+m3 <- lme(log(nitrification + 2.6) ~ temp * time, random = ~1|id, data = NhrmOl)
+anova(m1, m2, m3)
+  #m3 is slight ly better
+
+# autocorrelation
+atcr.cmpr(m3, rndmFac = "id")
+  # no need for autocorrelation
+
+# model simplification
+MdlSmpl(m3)
+  # interaction by temp x time and temp is removed
+
+Fml <- MdlSmpl(m3)$model.reml
+
+# The final model is
+lme(log(nitrification + 2.6) ~ time, random = ~1|id, data = NhrmOl)
+
+Anova(Fml)
+summary(Fml)
+
+# model diagnosis
+plot(Fml)
+qqnorm(Fml, ~ resid(.)|chamber)
+qqnorm(residuals.lm(Fml))
+qqline(residuals.lm(Fml))
+  # not very good....
+@
+
+%%% chamber %%%
+\clearpage
+\subsection{Chamber}
+
+\begin{figure}[!h]\label{figure:chamber_nitrification}
+\begin{center}
+
+<<FigChNitrification, echo=FALSE, fig.height=3, fig.width=6>>=
+ChFg[[1]]
+@
+\caption{Nitrification rates in chambers}
+\end{center}
+\end{figure}
+
+<<TableChNitrification, echo=FALSE, results='asis'>>=
+print(xtable(ChSmmryTbl[[1]][, 1:13],
+             caption = "Chamber means for Nitrification rates",
+             label = "table:chamber_nitrification",
+             align = rep("l", 14)),
+      caption.placement = "top",
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+print(xtable(ChSmmryTbl[[1]][,c(1, 14:25)],
+             align = rep("l", 14)),
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+print(xtable(ChSmmryTbl[[1]][,c(1, 26:37)],
+             align = rep("l", 14)),
+      include.rownames= FALSE,
+      table.placement = "H",
+      size = "small")
+@
+
+
 
 \end{document}
