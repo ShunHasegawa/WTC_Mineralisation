@@ -19,6 +19,10 @@
 TrtFg[[1]]
 @
 
+\caption{Nitrification rates at temperature treatments}
+\end{center}
+\end{figure}
+
 <<TableTempNitrification, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[1]],
              caption = "Temp trt mean of nitrification rates", 
@@ -28,11 +32,6 @@ print(xtable(TrtSmmryTbl[[1]],
       include.rownames = FALSE,
       table.placement = "H")
 @
-
-
-\caption{Nitrification rates at temperature treatments}
-\end{center}
-\end{figure}
 
 %% Stats %%
 \paragraph{Stats}

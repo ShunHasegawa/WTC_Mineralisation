@@ -18,6 +18,11 @@
 TrtFg[[2]]
 @
 
+\caption{N mineralisation rates at temperature treatments}
+\end{center}
+\end{figure}
+
+
 <<TableTempN_mineralisation, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[2]],
              caption = "Temp trt mean of N mineralisation rates", 
@@ -27,11 +32,6 @@ print(xtable(TrtSmmryTbl[[2]],
       include.rownames = FALSE,
       table.placement = "H")
 @
-
-
-\caption{N mineralisation rates at temperature treatments}
-\end{center}
-\end{figure}
 
 %% Stats %%
 \paragraph{Stats}

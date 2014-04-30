@@ -17,6 +17,9 @@
 <<FigTempP_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
 TrtFg[[3]]
 @
+\caption{P mineralisation rates at temperature treatments}
+\end{center}
+\end{figure}
 
 <<TableTempP_mineralisation, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[3]],
@@ -27,11 +30,6 @@ print(xtable(TrtSmmryTbl[[3]],
       include.rownames = FALSE,
       table.placement = "H")
 @
-
-
-\caption{P mineralisation rates at temperature treatments}
-\end{center}
-\end{figure}
 
 %% Stats %%
 \paragraph{Stats}
