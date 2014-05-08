@@ -45,17 +45,17 @@ source("R/stats_Nitrification.R")
 read_chunk("R/stats_Nitrification.R")
 @
 
-%%%%%%%%%%%%%
-%% Summary %%
-%%%%%%%%%%%%%
-<<Stat_WTC_Mine_Nitrification_Smmry, echo=TRUE, results='markup'>>=
-@
-
-% %%%%%%%%%%%%
-% %% Detail %%
-% %%%%%%%%%%%%
-% <<Stat_WTC_Mine_Nitrification, echo=TRUE, results='markup'>>=
+% %%%%%%%%%%%%%
+% %% Summary %%
+% %%%%%%%%%%%%%
+% <<Stat_WTC_Mine_Nitrification_Smmry, echo=TRUE, results='markup'>>=
 % @
+
+%%%%%%%%%%%%
+%% Detail %%
+%%%%%%%%%%%%
+<<Stat_WTC_Mine_Nitrification, echo=TRUE, results='markup'>>=
+@
 
 
 %%% chamber %%%

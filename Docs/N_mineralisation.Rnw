@@ -45,17 +45,17 @@ source("R/stats_Nmineralisation.R")
 read_chunk("R/stats_Nmineralisation.R")
 @
 
-%%%%%%%%%%%%%
-%% Summary %%
-%%%%%%%%%%%%%
-<<Stat_WTC_Mine_Nmineralisation_Smmry, echo=TRUE, results='markup'>>=
-@
-
-% %%%%%%%%%%%%
-% %% Detail %%
-% %%%%%%%%%%%%
-% <<Stat_WTC_Mine_Nmineralisation, echo=TRUE, results='markup'>>=
+% %%%%%%%%%%%%%
+% %% Summary %%
+% %%%%%%%%%%%%%
+% <<Stat_WTC_Mine_Nmineralisation_Smmry, echo=TRUE, results='markup'>>=
 % @
+
+%%%%%%%%%%%%
+%% Detail %%
+%%%%%%%%%%%%
+<<Stat_WTC_Mine_Nmineralisation, echo=TRUE, results='markup'>>=
+@
 
 %%% chamber %%%
 \clearpage
