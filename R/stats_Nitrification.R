@@ -1,3 +1,4 @@
+## ----Stat_WTC_Mine_Nitrification
 range(mine$nitrification)
 bxplts(value= "nitrification", ofst= 2.6, data = mine)
 bxcxplts(value= "nitrification", data = mine, sval = 2.531, fval = 3)
@@ -48,3 +49,14 @@ qqnorm(Fml, ~ resid(.)|id)
 qqnorm(residuals.lm(Fml))
 qqline(residuals.lm(Fml))
 # not very good....
+
+## ----Stat_WTC_Mine_Nitrification_Smmry
+# The initial model is:
+Iml$call
+
+Anova(Iml)
+
+# The final model is:
+Fml$call
+
+Anova(Fml)

@@ -1,5 +1,6 @@
-range(mine$n.min)
+## ----Stat_WTC_Mine_Nmineralisation
 
+range(mine$n.min)
 
 bxplts(value= "n.min", ofst= 2.7, data = mine)
 bxcxplts(value= "n.min", data = mine, sval = 2.6858, fval = 2.9)
@@ -47,3 +48,14 @@ qqnorm(Fml, ~ resid(.)|chamber)
 qqnorm(residuals.lm(Fml))
 qqline(residuals.lm(Fml))
 # not very good....
+
+## ----Stat_WTC_Mine_Nmineralisation_Smmry
+# The initial model is:
+Iml$call
+
+Anova(Iml)
+
+# The final model is:
+Fml$call
+
+Anova(Fml)
