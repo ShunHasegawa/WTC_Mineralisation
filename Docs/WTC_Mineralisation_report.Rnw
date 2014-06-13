@@ -46,6 +46,22 @@ source("R/figs.R")
 
 \section{Mineralisation}
 
+%%%%%%%%%%%%%%%
+% summary fig %
+%%%%%%%%%%%%%%%
+\subsection{Summary results}
+\begin{center}
+\begin{figure}[!ht]\label{figure:WTC_Mineralisation_Allres}
+
+\includegraphics[width=\textwidth]{../Output/Figs/WTC_Mineralisation_Temp.pdf}
+
+\caption{Mineralisation rates}
+
+\end{figure}
+\end{center}
+
+
+
 %%%%%%%%%%%%%%%%%
 % Nitrification %
 %%%%%%%%%%%%%%%%%
