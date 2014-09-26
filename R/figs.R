@@ -14,12 +14,12 @@ theme_set(theme_bw()) # graphic backgroud is white
 # plot each nutrient separately #
 #################################
 ChFg <- dlply(ChMean, .(variable), PltMean)
-fls <- paste("Output/Figs/WTC_Mineralisation_Chamber_", c("Nitrification", "N_mineralisation", "P_mineralisation"), ".pdf",sep = "")
-l_ply(1:3, function(x) ggsave(filename = fls[x], plot = ChFg[[x]], width = 6, height = 3))
+fls <- paste("Output/Figs/WTC_Mineralisation_Chamber_", c("Nitrification", "N_mineralisation", "P_mineralisation"), sep = "")
+l_ply(1:3, function(x) ggsavePP(filename = fls[x], plot = ChFg[[x]], width = 6, height = 3))
 
 TrtFg <- dlply(TrtMean, .(variable), PltMean)
-fls <- paste("Output/Figs/WTC_Mineralisation_Temp_", c("Nitrification", "N_mineralisation", "P_mineralisation"), ".pdf",sep = "")
-l_ply(1:3, function(x) ggsave(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
+fls <- paste("Output/Figs/WTC_Mineralisation_Temp_", c("Nitrification", "N_mineralisation", "P_mineralisation"),sep = "")
+l_ply(1:3, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
 
 ##################################
 # plot all nutrient in one graph #
@@ -37,6 +37,6 @@ ylab_label <- function(variable, value){
 
 pl <- PltMean(TrtMean) +
   facet_grid(variable~., scales= "free_y", labeller= ylab_label)
-ggsave(filename = "Output//Figs/WTC_Mineralisation_Temp.pdf", plot = pl, width = 6, height = 6)
+ggsavePP(filename = "Output//Figs/WTC_Mineralisation_Temp", plot = pl, width = 6, height = 6)
 
 

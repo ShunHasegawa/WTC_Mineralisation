@@ -12,3 +12,4 @@ figure/
 *.toc
 *.gz
 *.lof
+packrat/lib*/
