@@ -139,7 +139,7 @@ Crt_SmryDF <- function(data, val = "value"){
 # plot mean and se #
 ####################
 PltMean <- function(data){
-  unt <- substitute((mg~dry_soil_kg^-1~day^-1))
+  unt <- substitute((mg~kg^-1~day^-1))
   
   ylabs <- c(expression(), 
              bquote(atop("Nitrification rates", paste(.(unt)))),
@@ -155,9 +155,13 @@ PltMean <- function(data){
   
   p <- ggplot(data, aes_string(x = "date", y = "Mean", col = colfactor))
   
-  p2 <- p + geom_line(size = 1) + 
-    geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", col = colfactor), width = 5) + 
-    labs(x = "Time", y = ylab)
+  p2 <- p + geom_line(size = 1, position = position_dodge(10)) + 
+    geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", col = colfactor), 
+                  width = 5, 
+                  position = position_dodge(10)) + 
+    scale_x_date(breaks= date_breaks("2 month"), labels = date_format("%b-%y")) +
+    theme(axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1)) +
+    labs(x = "Month", y = ylab)
   
   # change colors, linetype and associated legend according plotting groups (chamber or treatment)
   if(colfactor == "temp") p2 +  scale_color_manual(values = c("blue", "red"), "Temp trt", labels = c("Ambient", "eTemp")) else
