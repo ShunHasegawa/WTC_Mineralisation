@@ -1,18 +1,6 @@
 rm(list=ls(all=TRUE))
 
-library(car)
-library(gmodels)
-library(lme4)
-library(lubridate)
-library(MASS)
-library(nlme)
-library(plyr)
-library(reshape)
-library(xlsx)
-library(contrast)
-library(effects)
-library(ggplot2)
-
+source("R/packages.R")
 source("R/functions.R")
 
 ##################
