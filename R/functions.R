@@ -162,6 +162,7 @@ PltMean <- function(data){
     scale_x_date(breaks= date_breaks("1 month"), 
                  labels = date_format("%b-%y"),
                  limits = as.Date(c("2013-2-1", "2014-2-15"))) +
+    geom_hline(yintercept = 0, col = "black", alpha = .8)+
     theme(axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1)) +
     labs(x = "Month", y = ylab)
   
