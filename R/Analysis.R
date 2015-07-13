@@ -33,3 +33,5 @@ source("R/figs.R")
 # Stats #
 #########
 source("R/stats.R")
+
+save.image("Output/Data/AllObj.RData")
