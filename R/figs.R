@@ -21,17 +21,37 @@ TrtFg <- dlply(TrtMean, .(variable), PltMean)
 fls <- paste("Output/Figs/WTC_Mineralisation_Temp_", c("Nitrification", "N_mineralisation", "P_mineralisation"),sep = "")
 l_ply(1:3, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
 
-############################
-# Fig for BES presentaiton #
-############################
-poster_theme <- theme(panel.grid.major = element_blank(),
-                      panel.grid.minor = element_blank(),
-                      legend.position = "non")
+########################
+# Plot for publication #
+########################
+# labels for facet_grid
+plDF <- TrtMean
+# change labels for variables
+plDF$variable <- factor(plDF$variable, 
+                        labels = paste("Net", c("nitrification", 
+                                                "N mineralisation", 
+                                                "P mineralisation"),
+                                       "rate"))
 
-TrtFg <- dlply(TrtMean, .(variable), function(x) PltMean(x) + poster_theme)
-fls <- paste("Output/Figs/BES_Presentation/WTC_Mineralisation_Temp_", 
-             c("Nitrification", "N_mineralisation", "P_mineralisation"),sep = "")
-l_ply(1:3, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 5, height = 3))
+theme_set(theme_bw())
+
+# ymax value for each variable
+ymaxDF <- ddply(plDF, .(variable), function(x) max(x$Mean + x$SE, na.rm = TRUE))
+
+# Stat result
+load("Output/Data//TempTime_Stat.RData")
+
+Stat_TempTime$variable <- factor(Stat_TempTime$variable, 
+                                 labels = paste("Net", c("nitrification", 
+                                                         "N mineralisation", 
+                                                         "P mineralisation"),
+                                       "rate"))
+p <- WBFig(data = plDF, 
+           ylab = expression(Mineralisation~rates~(mg~kg^"-1"~d^"-1")),
+           StatRes = Stat_TempTime, 
+           StatY = ymaxDF[ , 2]*1.15) 
+p
+ggsavePP(filename = "Output/Figs/Manuscript/WTC_Mineralisation", plot = p, width = 6.65, height = 6.65)
 
 ##################################
 # plot all nutrient in one graph #
