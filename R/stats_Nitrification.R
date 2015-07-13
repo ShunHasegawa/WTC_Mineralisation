@@ -1,62 +1,86 @@
 ## ----Stat_WTC_Mine_Nitrification
-range(mine$nitrification)
-bxplts(value= "nitrification", ofst= 2.6, data = mine)
-bxcxplts(value= "nitrification", data = mine, sval = 2.531, fval = 3)
+range(Mine_DF$nitrification)
 
-# remove the lowest value
-NhrmOl <- subset(mine, nitrification > min(nitrification))
+bxplts(value= "nitrification", ofst= .8, data = Mine_DF)
 
-range(NhrmOl$nitrification)
-bxplts(value= "nitrification", ofst= 1.74, data = NhrmOl)
-bxcxplts(value= "nitrification", data = NhrmOl, sval = 1.74, fval = 3)
-# homogeneity in variance is still highly violated
-# but carry on anyway with box-cox lambda this time
+# use square root
+Iml_nit <- lmer(sqrt(nitrification + .8) ~ temp * time  + (1|chamber), data = Mine_DF)
+Anova(Iml_nit)
 
-
-
-# different random factor structure
-m1 <- lme((nitrification + 1.74)^(0.7475) ~ temp * time, random = ~1|chamber/side, data = NhrmOl)
-m2 <- lme((nitrification + 1.74)^(0.7475) ~ temp * time, random = ~1|chamber, data = NhrmOl)
-m3 <- lme((nitrification + 1.74)^(0.7475) ~ temp * time, random = ~1|id, data = NhrmOl)
-anova(m1, m2, m3)
-#m3 is slight ly better
-
-# autocorrelation
-atcr.cmpr(m3, rndmFac = "id")$models
-# no need for autocorrelation
-Iml <- atcr.cmpr(m3, rndmFac = "id")[[1]]
-
-# The initial model is:
-Iml$call
-Anova(Iml)
-
-# model simplification
-MdlSmpl(Iml)
-# interaction by temp x time and temp is removed
-
-Fml <- MdlSmpl(Iml)$model.reml
-
-# The final model is
-Fml$call
-
-Anova(Fml)
-
-summary(Fml)
+Fml_nit <- stepLmer(Iml_nit)
+Anova(Fml_nit)
+AnvF_nit <- Anova(Fml_nit, test.statistic = "F")
+AnvF_nit
 
 # model diagnosis
-plot(Fml)
-qqnorm(Fml, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml))
-qqline(residuals.lm(Fml))
-# not very good....
+plot(Fml_nit)
+qqnorm(resid(Fml_nit))
+qqline(resid(Fml_nit))
+
+############################
+# ANCOVA fit soil variable #
+############################
+
+#######################
+# plot soil variables #
+#######################
+scatterplotMatrix(~ nitrification + moist + Temp5_Mean, data = Mine_DF, diag = "boxplot", 
+                  groups = Mine_DF$temp, by.group = TRUE)
+scatterplotMatrix(~ sqrt(nitrification + .8) + moist + Temp5_Mean, data = Mine_DF, diag = "boxplot", 
+                  groups = Mine_DF$temp, by.group = TRUE)
+# each chamber
+xyplot(sqrt(nitrification + .8) ~ moist|temp, groups = chamber, type = c("r", "p"), data = Mine_DF)
+xyplot(sqrt(nitrification + .8) ~ moist|chamber, type = c("r", "p"), data = Mine_DF)
+
+# each time
+xyplot(sqrt(nitrification + .8) ~ moist|temp, groups = time, type = c("r", "p"), data = Mine_DF)
+xyplot(sqrt(nitrification + .8) ~ moist|time, type = c("r", "p"), data = Mine_DF)
+
+Iml_ancv_nit <- lmer(sqrt(nitrification + .8) ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
+m2 <- update(Iml_ancv_nit, ~. - (1|time))
+m3 <- update(Iml_ancv_nit, ~. - (1|chamber))
+anova(Iml_ancv_nit, m2, m3)
+
+Anova(Iml_ancv_nit)
+Fml_ancv_nit <- Iml_ancv_nit
+AnvF_ancv_nit <- Anova(Fml_ancv_nit, test.statistic = "F")
+AnvF_ancv_nit
+# none is significant
+
+# model diagnosis
+plot(Fml_ancv_nit)
+qqnorm(resid(Fml_ancv_nit))
+qqline(resid(Fml_ancv_nit))
+
+# what if I rmeove outlier
+ol <- which(qqnorm(resid(Fml_ancv_nit))$y == min(qqnorm(resid(Fml_ancv_nit))$y))
+mm <- update(Fml_ancv_nit, subset = -ol)
+Anova(mm, test.statistic = "F")
+plot(mm)
+qqnorm(resid(mm))
+qqline(resid(mm))
+  # interaction is indicated. but moisture range differs between teratments
+ddply(Mine_DF, .(temp), summarise, range(moist))
+m2 <- update(mm, subset = moist < 0.14)
+Anova(m2) # no interaction in the same moisture range. so just use the 1st one
 
 ## ----Stat_WTC_Mine_Nitrification_Smmry
 # The initial model is:
-Iml$call
+Iml_nit@call
 
-Anova(Iml)
+Anova(Iml_nit)
 
 # The final model is:
-Fml$call
+Fml_nit@call
 
-Anova(Fml)
+# Chi
+Anova(Fml_nit)
+
+# F test
+AnvF_nit
+
+# ANCOVA
+Iml_ancv_nit@call
+Fml_ancv_nit@call
+Anova(Fml_ancv_nit)
+AnvF_ancv_nit
