@@ -5,29 +5,32 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%' <<setup, include=FALSE>>=
+%' opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+%' opts_knit$set(root.dir=normalizePath('../'))
+%' @
+%' <<readFiles, include=FALSE>>=
+%' source("R/packages.R")
+%' load("Output/Data/AllObj.RData")
+%' @
 
-\subsection{Nitrification}
+\section{Nitrification}
 
 %%% Temp %%%
-\subsubsection{Temp trt}
+\subsection{Temperature treatment}
 
 \begin{figure}[!h]\label{figure:temp_nitrification}
-
 \begin{center}
-
-<<FigTempNitrification, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[1]]
-@
-
+\includegraphics{../Output/Figs/WTC_Mineralisation_Temp_Nitrification.pdf}
 \caption{Nitrification rates at temperature treatments}
 \end{center}
 \end{figure}
 
 <<TableTempNitrification, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[1]],
-             caption = "Temp trt mean of nitrification rates", 
+             caption = "Temperature treatment mean of nitrification rates", 
              label = "table:temp_nitrification", 
-             align = rep("l", 8)),
+             align = rep("l", 9)),
       caption.placement = "top", 
       include.rownames = FALSE,
       table.placement = "H")
@@ -37,11 +40,10 @@ print(xtable(TrtSmmryTbl[[1]],
 %%% Stats %%%
 %%%%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 \noindent
 
 <<<ReadScript_WTC_Mine_Nitrification, echo=FALSE, include=FALSE>>=
-source("R/stats_Nitrification.R")
 read_chunk("R/stats_Nitrification.R")
 @
 
@@ -60,14 +62,11 @@ read_chunk("R/stats_Nitrification.R")
 
 %%% chamber %%%
 \clearpage
-\subsubsection{Chamber}
+\subsection{Chamber}
 
 \begin{figure}[!h]\label{figure:chamber_nitrification}
 \begin{center}
-
-<<FigChNitrification, echo=FALSE, fig.height=3, fig.width=6>>=
-ChFg[[1]]
-@
+\includegraphics{../Output/Figs/WTC_Mineralisation_Chamber_Nitrification.pdf}
 \caption{Nitrification rates in chambers}
 \end{center}
 \end{figure}

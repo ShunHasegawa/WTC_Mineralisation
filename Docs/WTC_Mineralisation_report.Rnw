@@ -3,6 +3,7 @@
 \usepackage{fullpage}
 \usepackage{pdfpages}
 \usepackage{float}
+\usepackage[hidelinks]{hyperref}
 
 \title{WTC Mineralisation results -Summary Stats-}
 \author{Shun Hasegawa}
@@ -14,12 +15,10 @@
 opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
 opts_knit$set(root.dir=normalizePath('../'))
 @
+
 <<readFiles, include=FALSE>>=
 source("R/packages.R")
-source("R/functions.R")
-load("Output//Data//WTC_Mineralisation.RData")
-source("R/SummaryTableExcel.R")
-source("R/figs.R")
+load("Output/Data/AllObj.RData")
 @
 
 \maketitle
@@ -31,23 +30,16 @@ source("R/figs.R")
 %%%
 %%%
 
-\section{Mineralisation}
-
 %%%%%%%%%%%%%%%
 % summary fig %
 %%%%%%%%%%%%%%%
-\subsection{Summary results}
+\section{Summary results}
 \begin{center}
 \begin{figure}[!ht]\label{figure:WTC_Mineralisation_Allres}
-
-\includegraphics[width=\textwidth]{../Output/Figs/WTC_Mineralisation_Temp.pdf}
-
+\includegraphics[width=\textwidth]{../Output/Figs/Manuscript/WTC_Mineralisation.pdf}
 \caption{Mineralisation rates}
-
 \end{figure}
 \end{center}
-
-
 
 %%%%%%%%%%%%%%%%%
 % Nitrification %

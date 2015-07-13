@@ -5,19 +5,23 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{N mineralisation}
+%' <<setup, include=FALSE>>=
+%' opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+%' opts_knit$set(root.dir=normalizePath('../'))
+%' @
+%' <<readFiles, include=FALSE>>=
+%' source("R/packages.R")
+%' load("Output/Data/AllObj.RData")
+%' @
+
+\section{N mineralisation}
 
 %%% Temp %%%
-\subsubsection{Temp trt}
+\subsection{Temperature treatment}
 
 \begin{figure}[!h]\label{figure:temp_N_mineralisation}
-
 \begin{center}
-
-<<FigTempN_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[2]]
-@
-
+\includegraphics{../Output/Figs/WTC_Mineralisation_Temp_N_mineralisation.pdf}
 \caption{N mineralisation rates at temperature treatments}
 \end{center}
 \end{figure}
@@ -25,9 +29,9 @@ TrtFg[[2]]
 
 <<TableTempN_mineralisation, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[2]],
-             caption = "Temp trt mean of N mineralisation rates", 
+             caption = "Temperature treatment mean of N mineralisation rates", 
              label = "table:temp_N_mineralisation", 
-             align = rep("l", 8)),
+             align = rep("l", 9)),
       caption.placement = "top", 
       include.rownames = FALSE,
       table.placement = "H")
@@ -41,7 +45,6 @@ print(xtable(TrtSmmryTbl[[2]],
 \noindent
 
 <<<ReadScript_WTC_Mine_Nmineralisation, echo=FALSE, include=FALSE>>=
-source("R/stats_Nmineralisation.R")
 read_chunk("R/stats_Nmineralisation.R")
 @
 
@@ -59,14 +62,11 @@ read_chunk("R/stats_Nmineralisation.R")
 
 %%% chamber %%%
 \clearpage
-\subsubsection{Chamber}
+\subsection{Chamber}
 
 \begin{figure}[!h]\label{figure:chamber_N_mineralisation}
 \begin{center}
-
-<<FigChN_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
-ChFg[[2]]
-@
+\includegraphics{../Output/Figs/WTC_Mineralisation_Chamber_N_mineralisation.pdf}
 \caption{N mineralisation rates in chambers}
 \end{center}
 \end{figure}

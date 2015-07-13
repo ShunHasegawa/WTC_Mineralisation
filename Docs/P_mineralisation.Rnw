@@ -5,27 +5,32 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{P mineralisation}
+%' <<setup, include=FALSE>>=
+%' opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+%' opts_knit$set(root.dir=normalizePath('../'))
+%' @
+%' <<readFiles, include=FALSE>>=
+%' source("R/packages.R")
+%' load("Output/Data/AllObj.RData")
+%' @
+
+\section{P mineralisation}
 
 %%% Temp %%%
-\subsubsection{Temp trt}
+\subsection{Temperature treatment}
 
 \begin{figure}[!h]\label{figure:temp_P_mineralisation}
-
 \begin{center}
-
-<<FigTempP_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[3]]
-@
+\includegraphics{../Output/Figs/WTC_Mineralisation_Temp_P_mineralisation.pdf}
 \caption{P mineralisation rates at temperature treatments}
 \end{center}
 \end{figure}
 
 <<TableTempP_mineralisation, echo=FALSE, results='asis'>>=
 print(xtable(TrtSmmryTbl[[3]],
-             caption = "Temp trt mean of P mineralisation rates", 
+             caption = "Temperature treatment mean of P mineralisation rates", 
              label = "table:temp_P_mineralisation", 
-             align = rep("l", 8)),
+             align = rep("l", 9)),
       caption.placement = "top", 
       include.rownames = FALSE,
       table.placement = "H")
@@ -35,11 +40,10 @@ print(xtable(TrtSmmryTbl[[3]],
 %%% Stats %%%
 %%%%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 \noindent
 
 <<<ReadScript_WTC_Mine_Pmineralisation, echo=FALSE, include=FALSE>>=
-source("R/stats_Pmineralisation.R")
 read_chunk("R/stats_Pmineralisation.R")
 @
 
@@ -57,14 +61,11 @@ read_chunk("R/stats_Pmineralisation.R")
 
 %%% chamber %%%
 \clearpage
-\subsubsection{Chamber}
+\subsection{Chamber}
 
 \begin{figure}[!h]\label{figure:chamber_P_mineralisation}
 \begin{center}
-
-<<FigChP_mineralisation, echo=FALSE, fig.height=3, fig.width=6>>=
-ChFg[[3]]
-@
+\includegraphics{../Output/Figs/WTC_Mineralisation_Chamber_P_mineralisation.pdf}
 \caption{P mineralisation rates in chambers}
 \end{center}
 \end{figure}
