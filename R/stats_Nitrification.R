@@ -36,12 +36,7 @@ xyplot(sqrt(nitrification + .8) ~ moist|chamber, type = c("r", "p"), data = Mine
 xyplot(sqrt(nitrification + .8) ~ moist|temp, groups = time, type = c("r", "p"), data = Mine_DF)
 xyplot(sqrt(nitrification + .8) ~ moist|time, type = c("r", "p"), data = Mine_DF)
 
-Iml_ancv_nit <- lmer(sqrt(nitrification + .8) ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
-m2 <- update(Iml_ancv_nit, ~. - (1|time))
-m3 <- update(Iml_ancv_nit, ~. - (1|chamber))
-anova(Iml_ancv_nit, m2, m3)
-
-Anova(Iml_ancv_nit)
+Iml_ancv_nit <- lmer(sqrt(nitrification + .8) ~ temp * (moist + Temp5_Mean) + (1|chamber), data = Mine_DF)
 Fml_ancv_nit <- Iml_ancv_nit
 AnvF_ancv_nit <- Anova(Fml_ancv_nit, test.statistic = "F")
 AnvF_ancv_nit

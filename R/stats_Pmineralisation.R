@@ -37,21 +37,19 @@ xyplot(sqrt(p.min + .04) ~ moist|chamber, type = c("r", "p"), data = Mine_DF)
 xyplot(sqrt(p.min + .04) ~ moist|temp, groups = time, type = c("r", "p"), data = Mine_DF)
 xyplot(sqrt(p.min + .04) ~ moist|time, type = c("r", "p"), data = Mine_DF)
 
-m1 <- lmer(sqrt(p.min + .04) ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
-m2 <- lmer(p.min ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
+m1 <- lmer(sqrt(p.min + .04) ~ temp * (Temp5_Mean + moist) + (1|chamber), data = Mine_DF)
+m2 <- lmer(p.min ~ temp * (Temp5_Mean + moist) + (1|chamber), data = Mine_DF)
 ldply(list(m1, m2), r.squared)
 # no difference
 
-Iml_ancv_pmin <- lmer(sqrt(p.min + .04) ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
-Anova(Iml_ancv_pmin, test.statistic = "F")
-m2 <- update(Iml_ancv_pmin, ~. - (1|time))
-m3 <- update(Iml_ancv_pmin, ~. - (1|chamber))
-anova(Iml_ancv_pmin, m2, m3)
-
-Fml_ancv_pmin <- update(Iml_ancv_pmin, ~ .- temp:moist)
+Iml_ancv_pmin <- lmer(sqrt(p.min + .04) ~ temp * (moist + Temp5_Mean) + (1|chamber), data = Mine_DF)
+Fml_ancv_pmin <- stepLmer(Iml_ancv_pmin, alpha.fixed = .1)
 AnvF_ancv_pmin <- Anova(Fml_ancv_pmin, test.statistic = "F")
 AnvF_ancv_pmin
-# none is significant
+
+par(mfrow = c(1, 2))
+visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", overlay = TRUE)
+visreg(Fml_ancv_pmin, xvar = "moist")
 
 # model diagnosis
 plot(Fml_ancv_pmin)
@@ -77,3 +75,7 @@ Fml_ancv_pmin@call
 
 Anova(Fml_ancv_pmin)
 AnvF_ancv_pmin
+
+par(mfrow = c(1, 2))
+visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", overlay = TRUE)
+visreg(Fml_ancv_pmin, xvar = "moist")

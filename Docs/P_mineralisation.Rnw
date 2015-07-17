@@ -50,7 +50,7 @@ read_chunk("R/stats_Pmineralisation.R")
 %%%%%%%%%%%%%
 %% Summary %%
 %%%%%%%%%%%%%
-<<Stat_WTC_Mine_Pmineralisation_Smmry, echo=TRUE, results='markup'>>=
+<<Stat_WTC_Mine_Pmineralisation_Smmry, echo=TRUE, results='markup', fig.show='asis', fig.width= 6.5, fig.height=4>>=
 @
 
 % %%%%%%%%%%%%

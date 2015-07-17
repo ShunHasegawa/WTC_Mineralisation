@@ -36,14 +36,9 @@ xyplot(sqrt(n.min + 2) ~ moist|chamber, type = c("r", "p"), data = Mine_DF)
 xyplot(sqrt(n.min + 2) ~ moist|temp, groups = time, type = c("r", "p"), data = Mine_DF)
 xyplot(sqrt(n.min + 2) ~ moist|time, type = c("r", "p"), data = Mine_DF)
 
-Iml_ancv_nmin <- lmer(sqrt(n.min + 2) ~ temp * moist + (1|time) + (1|chamber), data = Mine_DF)
-m2 <- update(Iml_ancv_nmin, ~. - (1|time))
-m3 <- update(Iml_ancv_nmin, ~. - (1|chamber))
-anova(Iml_ancv_nmin, m2, m3)
-
-Anova(Iml_ancv_nmin)
-Fml_ancv_nmin <- update(Iml_ancv_nmin, ~ . -temp:moist)
-anova(Iml_ancv_nmin, Fml_ancv_nmin)
+Iml_ancv_nmin <- lmer(n.min ~ temp * (moist + Temp5_Mean) + (1|chamber), data = Mine_DF)
+m <- stepLmer(Iml_ancv_nmin, alpha.fixed = .1)
+Fml_ancv_nmin <- Iml_ancv_nmin
 AnvF_ancv_nmin <- Anova(Fml_ancv_nmin, test.statistic = "F")
 AnvF_ancv_nmin
 # none is significant
