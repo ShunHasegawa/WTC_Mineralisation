@@ -73,3 +73,13 @@ TempTimeStatList <- list(nitrification = AnvF_nit,
 Stat_TempTime <- ldply(names(TempTimeStatList), 
                        function(x) StatTable(TempTimeStatList[[x]], variable = x))
 save(Stat_TempTime, file = "output//data/TempTime_Stat.RData")
+
+############
+## ANCOVA ##
+############
+AncvLst <- list('nmin' = AnvF_ancv_nmin, 
+                'nit' = AnvF_ancv_nit, 
+                'pmin' = AnvF_ancv_pmin)
+AncvRes <- AncvSmmryTbl(AncvRes = AncvLst, predictor = row.names(Anova(Iml_ancv_nmin)))
+
+write.csv(AncvRes,  file = "Output/Table/SummaryANCOVA.csv", row.names = FALSE)
