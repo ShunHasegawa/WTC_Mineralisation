@@ -48,8 +48,14 @@ AnvF_ancv_pmin <- Anova(Fml_ancv_pmin, test.statistic = "F")
 AnvF_ancv_pmin
 
 par(mfrow = c(1, 2))
-visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", overlay = TRUE)
-visreg(Fml_ancv_pmin, xvar = "moist")
+TransVirsreg(visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", plot = FALSE),
+             trans = function(x) x^2 - 0.04,
+             overlay = TRUE, line = list(col = c(1, 2)))
+
+TransVirsreg(visreg(Fml_ancv_pmin, xvar = "moist", by = "temp", plot = FALSE),
+             trans = function(x) x^2 - 0.04,
+             overlay = TRUE, line = list(col = c(1, 2)))
+
 
 # model diagnosis
 plot(Fml_ancv_pmin)
@@ -77,5 +83,10 @@ Anova(Fml_ancv_pmin)
 AnvF_ancv_pmin
 
 par(mfrow = c(1, 2))
-visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", overlay = TRUE)
-visreg(Fml_ancv_pmin, xvar = "moist")
+TransVirsreg(visreg(Fml_ancv_pmin, xvar = "Temp5_Mean", by = "temp", plot = FALSE),
+             trans = function(x) x^2 - 0.04,
+             overlay = TRUE, line = list(col = c(1, 2)))
+
+TransVirsreg(visreg(Fml_ancv_pmin, xvar = "moist", by = "temp", plot = FALSE),
+             trans = function(x) x^2 - 0.04,
+             overlay = TRUE, line = list(col = c(1, 2)))
